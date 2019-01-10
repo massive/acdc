@@ -1,0 +1,9 @@
+{
+  "name": "acdc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "node-samsung-airconditioner": "^0.2.5"
+  }
+}
