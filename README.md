@@ -8,12 +8,18 @@ This tool can get the status of certain Wifi enabled Samsung Air Conditioner uni
 
 `npm install`
 
+### Get token
+
+Proceed as `acdc status` instructs.
+
+Add given token to `.env`
+
 ## Usage
 
-`node index.js  --help`
+`acdc  --help`
 
 ```
-index.js <cmd> [args]
+acdc <cmd> [args]
 
 Commands:
   index.js status              get status
