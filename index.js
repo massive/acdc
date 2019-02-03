@@ -1,49 +1,40 @@
-var API = require('node-samsung-airconditioner')
+const yargs = require("yargs");
+const aircon = require("./lib/aircon.js");
+require("dotenv").config();
 
-const token = "";
-// let token = null
+const token = process.env.TOKEN;
 
-const logger = {
-  error   : function(msg, props) { console.log(msg); if (!!props) console.trace(props.exception); },
-  warning : function(msg, props) { console.log(msg); if (!!props) console.log(props);             },
-  notice  : function(msg, props) {  },
-  info    : function(msg, props) {  },
-  debug   : function(msg, props) {  }
-};
-
-new API({logger: logger}).on('discover', function(aircon) {
-  if (!token) {
-    aircon.get_token(function(err, token) {
-      if (!!err) return console.log('login error: ' + err.message);
-
-      // remember token for next time!
-    }).on('waiting', function() {
-      console.log('please power on the device within the next 30 seconds');
-    }).on('end', function() {
-      console.log('aircon disconnected');
-    }).on('err', function(err) {
-      console.log('aircon error: ' + err.message);
+yargs
+  .usage("$0 <cmd> [args]")
+  .command("status", "get status", argv => {
+    aircon(token, aircon => aircon.status(), result => console.log(result));
+  })
+  .command("on", "turn on", argv => {
+    aircon(token, aircon => {
+      aircon.onoff(true);
+      process.exit(1);
     });
-    return;
-  }
-  aircon.login(token, function(err) {
-    if (!!err) return console.log('login error: ' + err.message);
-
-  }).on('stateChange', function(state) {
-    // Responses, or user triggered state changes
-    console.log(state);
-    process.exit(0)
-  }).on('loginSuccess', function () {
-    const cmd = process.argv[2]
-
-    if (cmd === "status") {
-      aircon.status()
-    } else if (cmd === "on") {
-      aircon.onoff(true)
-    } else if (cmd === "off") {
-      aircon.onoff(false)
-    } else {
-      process.exit(-1)
+  })
+  .command("off", "turn off", argv => {
+    aircon(token, aircon => {
+      aircon.onoff(false);
+      process.exit(1);
+    });
+  })
+  .command(
+    "temp [temperature]",
+    "set temperature",
+    yargs => {
+      yargs.positional("temperature", {
+        type: "number",
+        describe: "target temperature"
+      });
+    },
+    argv => {
+      aircon(token, aircon => {
+        aircon.set_temperature(argv.temperature);
+        process.exit(1);
+      });
     }
-  });
-});
+  )
+  .help().argv;

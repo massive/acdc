@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "node-samsung-airconditioner": "^0.2.5"
+    "console.mute": "^0.3.0",
+    "dotenv": "^6.2.0",
+    "node-samsung-airconditioner": "^0.2.5",
+    "yargs": "^12.0.5"
   }
 }
