@@ -10,9 +10,7 @@ This tool can get the status of certain Wifi enabled Samsung Air Conditioner uni
 
 ### Get token
 
-Proceed as `acdc status` instructs.
-
-Add given token to `.env`
+Proceed as `acdc token` instructs.
 
 ## Usage
 
@@ -22,12 +20,27 @@ Add given token to `.env`
 acdc <cmd> [args]
 
 Commands:
-  index.js status              get status
-  index.js on                  turn on
-  index.js off                 turn off
-  index.js temp [temperature]  set temperature
+  acdc status              get status
+  acdc token               get token
+  acdc power [mode]        turn on or off
+  acdc on                  turn on
+  acdc off                 turn off
+  acdc temp [temperature]  set temperature
+  acdc wind [mode]         set wind mode
+  acdc run [mode]          set mode
+  acdc sleep [minutes]     good sleep duration
+  acdc level [level]       set wind level
 
 Options:
-  --version  Show version number                                       [boolean]
-  --help     Show help
+  --version      Show version number                                   [boolean]
+  --token, -t    AC API token                         [required] [default: null]
+  --verbose, -v  verbose mode                         [boolean] [default: false]
+  --help         Show help                                             [boolean]
+```
+
+For instance
+
+```
+$> acdc status -t AC_TOKEN
+{"temp_set":"23","temp":"23","mode":"Quiet","power":"On","op":"Heat","sleep":"0","wind":"Auto"}
 ```
